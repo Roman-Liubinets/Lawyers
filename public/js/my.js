@@ -23,10 +23,42 @@ app.controller('myCtrl', function ($scope, $http) {
 
 //Директиви 
 
+app.directive("headerBlock", function () {
+    return {
+        replace: true,
+        templateUrl: "template/header.html",
+        controller: function ($scope, $http) {
+
+            var cityURL = "https://roundlaw.com/api/v1/places/cities";
+            var competenciesURL = "https://roundlaw.com/api/v1/competencies";
+
+            $http.get(cityURL).then(function successCallback(response) {
+                $scope.citiesData = response.data;
+                $scope.description = response.data[0].name;
+                //                console.log($scope.citiesData);
+            })
+
+            $http.get(competenciesURL).then(function successCallback(response) {
+                $scope.competencieData = response.data;
+                $scope.description = response.data[0].name;
+                //                console.log($scope.citiesData);
+            })
+
+        }
+    }
+});
+
+app.directive("bodyBlock", function () {
+    return {
+        replace: true,
+        templateUrl: "template/body.html",
+        controller: function ($scope, $http) {}
+    }
+});
 
 
 
-           
+
 
 //Директива з унікальним атрибутом - для передачі файла
 app.directive('fileModel', ['$parse', function ($parse) {
